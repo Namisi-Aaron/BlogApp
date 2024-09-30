@@ -18,17 +18,17 @@ def create_blog():
     db.session.add(blog)
     db.session.commit()
 
-    return BlogPostSchema().jsonify(blog), 201
+    return jsonify(BlogPostSchema().dump(blog)), 201
 
 @blog_bp.route('/all', methods=['GET'])
 def get_all_blogs():
     blogs = BlogPost.query.all()
-    return BlogPostSchema(many=True).jsonify(blogs), 200
+    return jsonify(BlogPostSchema(many=True).dump(blogs)), 200
 
 @blog_bp.route('/user/<int:user_id>', methods=['GET'])
 def get_user_blogs(user_id):
     blogs = BlogPost.query.filter_by(user_id=user_id).all()
-    return BlogPostSchema(many=True).jsonify(blogs), 200
+    return jsonify(BlogPostSchema(many=True).dump(blogs)), 200
 
 @blog_bp.route('/profile', methods=['GET'])
 @jwt_required()

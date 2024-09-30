@@ -1,5 +1,7 @@
 Flask
 Flask-JWT-Extended
 Flask-SQLAlchemy
+Flask-Migrate
 Flask-Bcrypt
 marshmallow
+psycopg2-binary
