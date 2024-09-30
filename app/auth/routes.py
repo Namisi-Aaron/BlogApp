@@ -36,12 +36,18 @@ def login():
     password = data.get('password')
 
     user = User.query.filter_by(email=email).first()
+
     user.login_dt = datetime.now()
     db.session.add(user)
     db.session.commit()
 
-
-    if user and bcrypt.check_password_hash(user.password, password):
+    if not user:
+        return jsonify({"message":"User not found"}), 401
+    
+    elif not user.status:
+        return jsonify({"message":"User is inactive."}), 403
+    
+    elif bcrypt.check_password_hash(user.password, password):
         access_token = create_access_token(identity=user.id)
         return jsonify({"access_token": access_token}), 200
     else:
